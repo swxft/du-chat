@@ -1,9 +1,14 @@
 //index.js
-$(document).ready(()=>{
+$(document).ready(() => {
     const socket = io.connect();
     let currentUser;
-    // Get the online users from the server
     socket.emit('get online users');
+    //Each user should be in the general channel by default.
+    socket.emit('user changed channel', "General");
+    $(document).on('click', '.channel', (e)=>{
+        let newChannel = e.target.textContent;
+        socket.emit('user changed channel', newChannel);
+    });
   
     $('#create-user-btn').click((e)=>{
       e.preventDefault();
@@ -114,5 +119,12 @@ $(document).ready(()=>{
             </div>
           `);
         }
+      });
+      socket.on('user changed channel', (newChannel) => {
+        socket.join(newChannel);
+        socket.emit('user changed channel', {
+          channel : newChannel,
+          messages : channels[newChannel]
+        });
       });
   })
