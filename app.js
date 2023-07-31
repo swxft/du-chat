@@ -9,11 +9,10 @@ io.on("connection", (socket) => {
 })
 
 //Express View Engine for Handlebars
-const exphbs  = require('express-handlebars');
-app.engine('handlebars', exphbs());
+const exphbs = require('express-handlebars');
+app.engine('handlebars', exphbs.engine({ defaultLayout: 'index' }));
 app.set('view engine', 'handlebars');
-//Establish your public folder
-app.use('/public', express.static('public'))
+app.use('/public', express.static('public'));
 
 app.get('/', (req, res) => {
     res.render('index.handlebars');
