@@ -30,7 +30,7 @@ $(document).ready(()=>{
         $('#chat-input').val("");
       }
     });
-    
+
     //Refresh the online user list
     socket.on('user has left', (onlineUsers) => {
     $('.users-online').empty();
@@ -60,5 +60,15 @@ $(document).ready(()=>{
         $('.users-online').append(`<div class="user-online">${username}</div>`);
     }
     })
+
+    $('#new-channel-btn').click( () => {
+        let newChannel = $('#new-channel-input').val();
+    
+        if(newChannel.length > 0){
+          // Emit the new channel to the server
+          socket.emit('new channel', newChannel);
+          $('#new-channel-input').val("");
+        }
+      });
   
   })
